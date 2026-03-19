@@ -118,7 +118,7 @@ GigShield is a **parametric income insurance platform** where:
 
 ### Why Weekly?
 
-Delivery partners operate on a week-to-week income cycle. A monthly premium feels burdensome and disconnected from their cash flow. Weekly pricing matches how they think about money — and removes the friction of large upfront commitments.
+Delivery partners operate on a week-to-week income cycle. A monthly premium feels burdensome and disconnected from their cash flow. Weekly pricing matches how they think about money - and removes the friction of large upfront commitments.
 
 ### Premium Tiers
 
@@ -218,7 +218,7 @@ The worst outcome is punishing a genuine Rajan who is actually stuck in floodwat
 | Flag Level | Action | Worker Experience |
 |---|---|---|
 | **Green (Score <30)** | Auto-pay immediately | Seamless - worker notices nothing |
-| **Yellow (Score 30–70)** | Soft hold — 2-hr review window | Worker receives message: *"We're verifying your payout due to high claim volume. You'll receive it within 2 hours."* Payout released after review unless hard evidence of fraud. |
+| **Yellow (Score 30–70)** | Soft hold - 2-hr review window | Worker receives message: *"We're verifying your payout due to high claim volume. You'll receive it within 2 hours."* Payout released after review unless hard evidence of fraud. |
 | **Red (Score >70)** | Claim paused; human review | Worker receives: *"We need a quick verification. Reply with a photo of your current location."* A simple selfie with geo-tagged metadata resolves legitimate cases in minutes. |
 
 **Key UX Principles:**
@@ -250,7 +250,7 @@ The worst outcome is punishing a genuine Rajan who is actually stuck in floodwat
 
 ### Development Plan
 
-**Phase 1 (Current — March 4–20): Ideation & Foundation**
+**Phase 1 (Current - March 4–20): Ideation & Foundation**
 - [x] Persona research and scenario definition
 - [x] Premium model design and trigger mapping
 - [x] AI/ML architecture planning
