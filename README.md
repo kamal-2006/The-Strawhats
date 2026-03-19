@@ -22,22 +22,22 @@
 
 ## 🔥 Problem Statement
 
-India's platform-based delivery partners — working for Zomato, Swiggy, Zepto, Amazon, and similar platforms — are the silent engine of our digital economy. Yet they operate without any safety net.
+India's platform-based delivery partners - working for Zomato, Swiggy, Zepto, Amazon, and similar platforms - are the silent engine of our digital economy. Yet they operate without any safety net.
 
-When a red-alert rain floods Mumbai, a pollution emergency shuts down Delhi, or a sudden local strike closes an entire market zone — these workers don't earn. No hours worked = no income. There is no buffer, no savings protection, and no employer to fall back on.
+When a red-alert rain floods Mumbai, a pollution emergency shuts down Delhi, or a sudden local strike closes an entire market zone - these workers don't earn. No hours worked = no income. There is no buffer, no savings protection, and no employer to fall back on.
 
-**GigShield** directly addresses this gap: an AI-powered, parametric income insurance platform that triggers automatic payouts when verifiable external disruptions prevent delivery partners from working — **no manual claims, no paperwork, no delays.**
+**GigShield** directly addresses this gap: an AI-powered, parametric income insurance platform that triggers automatic payouts when verifiable external disruptions prevent delivery partners from working - **no manual claims, no paperwork, no delays.**
 
 ---
 
 ## 👤 Our Persona
 
-**Segment Chosen:** Food Delivery — Zomato & Swiggy Partners
+**Segment Chosen:** Food Delivery - Zomato & Swiggy Partners
 
 **Representative User: Rajan, 28, Bengaluru**
 - Earns ₹18,000–₹22,000/month
 - Works 10–12 hours/day, 6 days/week
-- Has zero savings buffer — misses even 2 days = significant stress
+- Has zero savings buffer - misses even 2 days = significant stress
 - Owns a two-wheeler; rents a room; sends money home monthly
 - Trusts UPI and WhatsApp; is skeptical of complex insurance forms
 
@@ -49,7 +49,7 @@ GigShield is a **parametric income insurance platform** where:
 
 - Workers subscribe on a **weekly basis** for a small, affordable premium
 - External disruption triggers (weather, pollution, curfew, etc.) are monitored in **real time** via APIs
-- When a verified trigger occurs in a worker's active delivery zone, a **payout is automatically initiated** — no claim filing required
+- When a verified trigger occurs in a worker's active delivery zone, a **payout is automatically initiated** - no claim filing required
 - The entire experience is mobile-first, available in regional languages, and integrated with UPI for instant payouts
 
 > ⚠️ **Strictly excluded:** Health insurance, life insurance, accident coverage, vehicle repair. GigShield covers **lost income only.**
@@ -175,7 +175,7 @@ Delivery partners operate on a week-to-week income cycle. A monthly premium feel
 
 ## 🛡️ Adversarial Defense & Anti-Spoofing Strategy
 
-> **Context:** A coordinated syndicate of 500 delivery workers in a tier-1 city has been detected exploiting parametric insurance platforms by using GPS-spoofing apps to fake their location inside red-alert weather zones — draining liquidity pools with fraudulent payouts.
+> **Context:** A coordinated syndicate of 500 delivery workers in a tier-1 city has been detected exploiting parametric insurance platforms by using GPS-spoofing apps to fake their location inside red-alert weather zones - draining liquidity pools with fraudulent payouts.
 
 ### 1. The Differentiation: Genuine Stranded Worker vs. Bad Actor
 
@@ -184,7 +184,7 @@ Simple GPS coordinates are **never** used as the sole eligibility criterion. Gig
 | Signal | Genuine Worker | GPS Spoofer |
 |---|---|---|
 | **Platform Activity Log** | Orders accepted/rejected, app open/close patterns consistent with disruption | Platform API shows no order attempts despite being "online" |
-| **Accelerometer & Sensor Data** | Device shows movement patterns consistent with outdoor riding/stopping at traffic | Device sensors flat — characteristic of a stationary phone running a spoof app |
+| **Accelerometer & Sensor Data** | Device shows movement patterns consistent with outdoor riding/stopping at traffic | Device sensors flat - characteristic of a stationary phone running a spoof app |
 | **Network Cell Tower Triangulation** | Cell tower pings match the declared GPS zone | Cell tower data conflicts with the GPS coordinates being reported |
 | **Battery & Data Usage Patterns** | Normal operational battery drain; consistent data pings | Abnormally high data usage (spoofing apps are data-intensive); inconsistent ping intervals |
 | **Historical Behavioral Baseline** | Claim behavior matches prior disruption responses | First-time claim perfectly coinciding with a mass event; no prior history of disruption interaction |
@@ -201,7 +201,7 @@ Beyond individual signal checks, GigShield runs a **ring-detection layer** that 
 
 - **Device Fingerprint Correlation:** Spoofing apps often run on a small set of rooted/modified devices. If multiple claims share identical device fingerprints or spoofing-app signatures (detected via device integrity APIs like Google Play Integrity), they are flagged as a coordinated group.
 
-- **Telegram / Social Signal Monitoring (Metadata Only):** We monitor for sudden spikes in subscription and claim activity from specific pin codes that correlate with known organized labor Telegram group activity patterns — a behavioral signal, not content surveillance.
+- **Telegram / Social Signal Monitoring (Metadata Only):** We monitor for sudden spikes in subscription and claim activity from specific pin codes that correlate with known organized labor Telegram group activity patterns - a behavioral signal, not content surveillance.
 
 - **Velocity Rules:** No single geographic micro-zone (500m radius) can generate more than X auto-payouts per hour. Excess claims are queued for review. This rate-limits even a well-coordinated attack.
 
@@ -217,13 +217,13 @@ The worst outcome is punishing a genuine Rajan who is actually stuck in floodwat
 
 | Flag Level | Action | Worker Experience |
 |---|---|---|
-| **Green (Score <30)** | Auto-pay immediately | Seamless — worker notices nothing |
+| **Green (Score <30)** | Auto-pay immediately | Seamless - worker notices nothing |
 | **Yellow (Score 30–70)** | Soft hold — 2-hr review window | Worker receives message: *"We're verifying your payout due to high claim volume. You'll receive it within 2 hours."* Payout released after review unless hard evidence of fraud. |
 | **Red (Score >70)** | Claim paused; human review | Worker receives: *"We need a quick verification. Reply with a photo of your current location."* A simple selfie with geo-tagged metadata resolves legitimate cases in minutes. |
 
 **Key UX Principles:**
 - **Presumption of innocence:** Yellow flags default to *paying* unless fraud is confirmed, not the other way around.
-- **No jargon:** Communications are in simple Hindi/Kannada/Tamil — not "Your claim has been flagged for anomalous geospatial activity."
+- **No jargon:** Communications are in simple Hindi/Kannada/Tamil - not "Your claim has been flagged for anomalous geospatial activity."
 - **Manual override available:** A worker can escalate any held payout via a one-tap WhatsApp message to a support bot that explains the delay in plain language.
 - **Network drop protection:** If GPS drops during a genuine disruption (common in heavy rain), the system falls back to the **last verified cell tower location** within the past 30 minutes rather than immediately flagging the claim.
 
@@ -238,7 +238,7 @@ The worst outcome is punishing a genuine Rajan who is actually stuck in floodwat
 | **Frontend** | React Native (mobile-first) + React.js (admin/analytics dashboard) |
 | **Backend** | Node.js + Express / FastAPI (Python for ML services) |
 | **Database** | PostgreSQL (transactional) + Redis (real-time session/fraud cache) |
-| **ML/AI** | Python — scikit-learn, XGBoost, Prophet, Isolation Forest |
+| **ML/AI** | Python - scikit-learn, XGBoost, Prophet, Isolation Forest |
 | **Weather API** | OpenWeatherMap API / IMD data feeds |
 | **AQI API** | CPCB AQI API / OpenAQ |
 | **Maps & Location** | Google Maps Platform / Mapbox |
@@ -291,7 +291,7 @@ The worst outcome is punishing a genuine Rajan who is actually stuck in floodwat
 **Decision: Mobile-First (React Native) with Web Admin Dashboard**
 
 **Rationale:**
-- Target users (delivery partners) live on their phones — they don't use desktops
+- Target users (delivery partners) live on their phones - they don't use desktops
 - UPI payment confirmation, GPS data, and sensor data require native mobile access
 - WhatsApp integration is most natural on mobile
 - Admin/analytics dashboard is web-based for operations team use
