@@ -1,4 +1,4 @@
-# 🛵 GigShield — AI-Powered Parametric Income Insurance for India's Delivery Partners
+# 🛵 GigShield - AI-Powered Parametric Income Insurance for India's Delivery Partners
 
 > **DEVTrails 2026 | Phase 1 Submission**
 > Protecting the backbone of India's gig economy from uncontrollable income disruptions.
@@ -296,23 +296,15 @@ The worst outcome is punishing a genuine Rajan who is actually stuck in floodwat
 - WhatsApp integration is most natural on mobile
 - Admin/analytics dashboard is web-based for operations team use
 
----
 
-## 📦 Deliverables
-
-- [x] This README (Idea Document)
-- [ ] GitHub Repository (this repo)
-- [ ] 2-Minute Strategy Video — [Link to be added before March 20 EOD]
-
----
-
-## 👥 Team
+## 👥 Team The Strawhats!
 
 | Name | Role |
 |---|---|
-| [Your Name] | Product & Strategy |
-| [Team Member] | Backend / ML |
-| [Team Member] | Frontend / Design |
+| [Kamalesh K] | Product & Strategy |
+| [Thiruselvan V] | Backend / ML |
+| [Selvapraveen S] | Frontend / Design |
+| [Prasanth E] | Frontend / Design |
 
 ---
 
