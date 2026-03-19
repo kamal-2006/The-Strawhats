@@ -301,10 +301,10 @@ The worst outcome is punishing a genuine Rajan who is actually stuck in floodwat
 
 | Name | Role |
 |---|---|
-| [Kamalesh K] | Product & Strategy |
-| [Thiruselvan V] | Backend / ML |
-| [Selvapraveen S] | Frontend / Design |
-| [Prasanth E] | Frontend / Design |
+| Kamalesh K | Product & Strategy |
+| Thiruselvan V | Backend / ML |
+| Selvapraveen S | Frontend / Design |
+| Prasanth E | Frontend / Design |
 
 ---
 
