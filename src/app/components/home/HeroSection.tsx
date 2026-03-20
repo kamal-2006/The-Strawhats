@@ -6,7 +6,7 @@ import { ImageWithFallback } from '../figma/ImageWithFallback';
 import { useEffect, useState } from 'react';
 
 export function HeroSection() {
-  const [imgUrl, setImgUrl] = useState('');
+  const [imgUrl, setImgUrl] = useState("https://www.socsci.ox.ac.uk/sites/default/files/socsci/images/page/1._graham_oii_gig_economy.jpg");
 
   useEffect(() => {
     // Load image asynchronously
@@ -171,7 +171,7 @@ export function HeroSection() {
               <div className="relative aspect-square bg-gradient-to-br from-blue-100 via-purple-100 to-teal-100 dark:from-blue-900/20 dark:via-purple-900/20 dark:to-teal-900/20 p-8">
                 {imgUrl ? (
                   <ImageWithFallback
-                    src={imgUrl}
+                    src="https://www.socsci.ox.ac.uk/sites/default/files/socsci/images/page/1._graham_oii_gig_economy.jpg"
                     alt="Delivery rider in rain"
                     className="w-full h-full object-cover rounded-xl"
                   />
