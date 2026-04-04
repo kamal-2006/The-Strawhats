@@ -1,28 +1,80 @@
 import { motion } from 'motion/react';
-import { Shield, Smartphone, MapPin, CheckCircle, ArrowRight } from 'lucide-react';
+import { Shield, Smartphone, MapPin, CheckCircle, ArrowRight, Sparkles, AlertCircle } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { Card } from '../components/ui/card';
-import { useState } from 'react';
+import { Badge } from '../components/ui/badge';
+import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router';
+import { useInsurance } from '../contexts/InsuranceContext';
+import { PLAN_CATALOG } from '../services/insuranceEngine';
+import { PlanId } from '../types/insurance';
 
 export function Login() {
-  const [step, setStep] = useState<'phone' | 'otp' | 'location' | 'success'>('phone');
+  const [step, setStep] = useState<'phone' | 'otp' | 'profile' | 'plan' | 'success'>('phone');
   const [phone, setPhone] = useState('');
   const [otp, setOtp] = useState('');
+  const [name, setName] = useState('');
+  const [location, setLocation] = useState('KR Puram, Bangalore');
+  const [selectedPlan, setSelectedPlan] = useState<PlanId>('standard');
+  const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [demoOtp, setDemoOtp] = useState('');
+  const [activeLanguage, setActiveLanguage] = useState('English');
+
+  const { deliveryZones, requestOtp, verifyOtp, setProfile, quotePolicy, activatePolicy } = useInsurance();
   const navigate = useNavigate();
 
-  const handlePhoneSubmit = (e: React.FormEvent) => {
+  const quote = useMemo(() => quotePolicy(selectedPlan, location), [quotePolicy, selectedPlan, location]);
+
+  const handlePhoneSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setErrorMessage('');
+
+    const digits = phone.replace(/\D/g, '');
+    if (digits.length !== 10) {
+      setErrorMessage('Please enter a valid 10-digit phone number.');
+      return;
+    }
+
+    setLoading(true);
+    const otpCode = await requestOtp(digits);
+    setDemoOtp(otpCode);
+    setLoading(false);
     setStep('otp');
   };
 
   const handleOtpSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setStep('location');
+    setErrorMessage('');
+    const isValid = verifyOtp(otp.trim());
+    if (!isValid) {
+      setErrorMessage('Invalid or expired OTP. Please use the latest demo OTP.');
+      return;
+    }
+    setStep('profile');
   };
 
-  const handleLocationPermission = () => {
+  const handleProfileSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setErrorMessage('');
+
+    if (!name.trim()) {
+      setErrorMessage('Please enter your full name.');
+      return;
+    }
+
+    setProfile(name.trim(), location);
+    setStep('plan');
+  };
+
+  const handleActivatePolicy = () => {
+    const activated = activatePolicy(selectedPlan);
+    if (!activated) {
+      setErrorMessage('Registration details are incomplete. Please retry the previous step.');
+      return;
+    }
+
     setStep('success');
     setTimeout(() => {
       navigate('/dashboard');
@@ -139,8 +191,9 @@ export function Login() {
                     type="submit"
                     className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
                     size="lg"
+                    disabled={loading}
                   >
-                    Send OTP
+                    {loading ? 'Sending OTP...' : 'Send OTP'}
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Button>
 
@@ -170,6 +223,10 @@ export function Login() {
                 </div>
 
                 <form onSubmit={handleOtpSubmit} className="space-y-6">
+                  <div className="rounded-lg border border-green-200 dark:border-green-800 bg-green-50 dark:bg-green-900/20 p-3 text-sm text-green-800 dark:text-green-200">
+                    Demo OTP for simulation: <span className="font-bold tracking-widest">{demoOtp}</span>
+                  </div>
+
                   <div>
                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                       OTP
@@ -207,8 +264,8 @@ export function Login() {
               </motion.div>
             )}
 
-            {/* Location Step */}
-            {step === 'location' && (
+            {/* Profile Step */}
+            {step === 'profile' && (
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -218,46 +275,141 @@ export function Login() {
                     <MapPin className="h-8 w-8 text-orange-600 dark:text-orange-400" />
                   </div>
                   <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
-                    Enable Location
+                    Complete Your Profile
                   </h3>
                   <p className="text-gray-600 dark:text-gray-400">
-                    We need your location to provide accurate protection
+                    Tell us where you deliver so AI can calculate your risk-based premium
                   </p>
                 </div>
 
-                <div className="space-y-6">
-                  <div className="bg-blue-50 dark:bg-blue-900/20 rounded-xl p-4 border border-blue-200 dark:border-blue-800">
-                    <h4 className="font-semibold text-gray-900 dark:text-white mb-2">Why we need this:</h4>
-                    <ul className="space-y-2 text-sm text-gray-700 dark:text-gray-300">
-                      <li className="flex items-start">
-                        <CheckCircle className="h-4 w-4 text-green-600 mr-2 mt-0.5 flex-shrink-0" />
-                        Track weather conditions in your area
-                      </li>
-                      <li className="flex items-start">
-                        <CheckCircle className="h-4 w-4 text-green-600 mr-2 mt-0.5 flex-shrink-0" />
-                        Verify disruption events
-                      </li>
-                      <li className="flex items-start">
-                        <CheckCircle className="h-4 w-4 text-green-600 mr-2 mt-0.5 flex-shrink-0" />
-                        Prevent fraud
-                      </li>
-                    </ul>
+                <form onSubmit={handleProfileSubmit} className="space-y-6">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                      Full Name
+                    </label>
+                    <Input
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      placeholder="Rajan Kumar"
+                      required
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                      Delivery Zone
+                    </label>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                      {deliveryZones.slice(0, 8).map((zone) => (
+                        <button
+                          key={zone}
+                          type="button"
+                          onClick={() => setLocation(zone)}
+                          className={`text-left rounded-lg border px-3 py-2 text-sm transition-colors ${
+                            location === zone
+                              ? 'border-blue-500 bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-200'
+                              : 'border-gray-200 bg-white hover:border-blue-300 dark:border-gray-700 dark:bg-gray-900'
+                          }`}
+                        >
+                          {zone}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="bg-blue-50 dark:bg-blue-900/20 rounded-xl p-4 border border-blue-200 dark:border-blue-800 text-sm text-blue-900 dark:text-blue-100">
+                    Location enables weather, pollution, strike, and flooding trigger checks with zero-touch claim automation.
                   </div>
 
                   <Button
-                    onClick={handleLocationPermission}
+                    type="submit"
                     className="w-full bg-gradient-to-r from-orange-600 to-red-600 hover:from-orange-700 hover:to-red-700"
                     size="lg"
                   >
-                    Allow Location Access
+                    Continue to Plan Selection
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Button>
 
                   <p className="text-xs text-center text-gray-600 dark:text-gray-400">
-                    Your location data is encrypted and never shared
+                    Your location data is encrypted and only used for disruption verification and fraud prevention.
+                  </p>
+                </form>
+              </motion.div>
+            )}
+
+            {/* Plan Step */}
+            {step === 'plan' && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+              >
+                <div className="text-center mb-6">
+                  <div className="inline-flex p-4 bg-gradient-to-br from-indigo-100 to-cyan-100 dark:from-indigo-900/30 dark:to-cyan-900/30 rounded-2xl mb-4">
+                    <Sparkles className="h-8 w-8 text-indigo-600 dark:text-indigo-400" />
+                  </div>
+                  <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+                    Pick Your Weekly Protection Plan
+                  </h3>
+                  <p className="text-gray-600 dark:text-gray-400">
+                    AI-calculated premium for {location}
                   </p>
                 </div>
+
+                <div className="grid gap-3 mb-6">
+                  {(Object.keys(PLAN_CATALOG) as PlanId[]).map((planId) => {
+                    const plan = PLAN_CATALOG[planId];
+                    const selected = selectedPlan === planId;
+                    return (
+                      <button
+                        key={planId}
+                        type="button"
+                        onClick={() => setSelectedPlan(planId)}
+                        className={`rounded-xl border p-4 text-left transition-all ${
+                          selected
+                            ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20 shadow-md'
+                            : 'border-gray-200 bg-white dark:bg-gray-900 dark:border-gray-700 hover:border-blue-300'
+                        }`}
+                      >
+                        <div className="flex items-center justify-between">
+                          <div>
+                            <div className="font-bold text-gray-900 dark:text-white">{plan.name}</div>
+                            <div className="text-sm text-gray-600 dark:text-gray-400">Base ₹{plan.weeklyBasePremium}/week</div>
+                          </div>
+                          {selected && <Badge className="bg-blue-600">Selected</Badge>}
+                        </div>
+                      </button>
+                    );
+                  })}
+                </div>
+
+                {quote && (
+                  <div className="rounded-xl border border-indigo-200 dark:border-indigo-800 bg-indigo-50 dark:bg-indigo-900/20 p-4 mb-6">
+                    <div className="flex items-center justify-between mb-2">
+                      <div className="font-semibold text-indigo-900 dark:text-indigo-100">AI Premium Breakdown</div>
+                      <Badge variant="outline" className="bg-white dark:bg-gray-900">{Math.round((quote.riskMultiplier - 1) * 100)}% risk factor</Badge>
+                    </div>
+                    <div className="text-2xl font-bold text-gray-900 dark:text-white mb-1">₹{quote.weeklyPremium}/week</div>
+                    <div className="text-sm text-gray-700 dark:text-gray-300 mb-2">Coverage up to ₹{quote.maxWeeklyCoverage}/week</div>
+                    <p className="text-sm text-indigo-900 dark:text-indigo-100">{quote.aiExplanation}</p>
+                  </div>
+                )}
+
+                <Button
+                  onClick={handleActivatePolicy}
+                  className="w-full bg-gradient-to-r from-indigo-600 to-cyan-600 hover:from-indigo-700 hover:to-cyan-700"
+                  size="lg"
+                >
+                  Activate Zero-Touch Protection
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </Button>
               </motion.div>
+            )}
+
+            {errorMessage && (
+              <div className="mt-6 rounded-lg border border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-900/20 p-3 text-sm text-red-700 dark:text-red-200 flex items-start gap-2">
+                <AlertCircle className="h-4 w-4 mt-0.5" />
+                <span>{errorMessage}</span>
+              </div>
             )}
 
             {/* Success Step */}
@@ -302,9 +454,10 @@ export function Login() {
               {['English', 'हिंदी', 'தமிழ்'].map((lang) => (
                 <button
                   key={lang}
+                  onClick={() => setActiveLanguage(lang)}
                   className="px-4 py-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors text-sm"
                 >
-                  {lang}
+                  <span className={activeLanguage === lang ? 'font-semibold text-blue-600 dark:text-blue-400' : ''}>{lang}</span>
                 </button>
               ))}
             </div>
