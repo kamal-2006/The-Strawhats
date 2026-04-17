@@ -1,0 +1,11 @@
+{
+  "disruption_model": {
+    "accuracy": 0.977,
+    "eligible_precision": 0.8332009386333157
+  },
+  "claim_model": {
+    "mae": 27.431944651647033,
+    "r2_score": 0.9989413868369214,
+    "training_samples": 1867
+  }
+}

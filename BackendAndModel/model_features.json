@@ -1,0 +1,35 @@
+{
+  "disruption_features": [
+    "disruption_type",
+    "disruption_intensity",
+    "weather_condition",
+    "pollution_index",
+    "platform",
+    "city",
+    "delivery_type",
+    "zone_safety_score",
+    "gps_accuracy_percent"
+  ],
+  "claim_features": [
+    "income_loss_percentage",
+    "days_worked_weekly",
+    "avg_delivery_distance_km",
+    "customer_rating",
+    "weekly_avg_earnings",
+    "experience_months",
+    "age_group",
+    "claim_fraud_indicator"
+  ],
+  "disruption_categorical": [
+    "disruption_type",
+    "disruption_intensity",
+    "weather_condition",
+    "pollution_index",
+    "platform",
+    "city",
+    "delivery_type"
+  ],
+  "claim_categorical": [
+    "age_group"
+  ]
+}
