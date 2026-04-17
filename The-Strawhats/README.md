@@ -1,103 +1,519 @@
-# 🛵 GigShield - AI-Powered Parametric Income Insurance for India's Delivery Partners
+# 🛵 GigShield Frontend - AI-Powered Parametric Income Insurance
 
 > **DEVTrails 2026 | Phase 1 Submission**
-> Protecting the backbone of India's gig economy from uncontrollable income disruptions.
+> Protecting India's gig delivery workers from uncontrollable income disruptions through AI-powered parametric insurance.
 
 ---
 
 ## 📌 Table of Contents
 
-1. [Problem Statement](#-problem-statement)
-2. [Our Persona](#-our-persona)
+1. [Project Overview](#-project-overview)
+2. [Problem Statement](#-problem-statement)
 3. [Solution Overview](#-solution-overview)
-4. [Persona-Based Scenarios & Workflow](#-persona-based-scenarios--workflow)
-5. [Weekly Premium Model & Parametric Triggers](#-weekly-premium-model--parametric-triggers)
-6. [AI/ML Integration Plan](#-aiml-integration-plan)
-7. [Adversarial Defense & Anti-Spoofing Strategy](#-adversarial-defense--anti-spoofing-strategy)
-8. [Tech Stack & Development Plan](#-tech-stack--development-plan)
-9. [Platform Choice: Web vs Mobile](#-platform-choice-web-vs-mobile)
-10. [Deliverables](#-deliverables)
+4. [Technology Stack](#-technology-stack)
+5. [Project Structure](#-project-structure)
+6. [Getting Started](#-getting-started)
+7. [Key Features](#-key-features)
+8. [Architecture](#-architecture)
+9. [API Integration](#-api-integration)
+10. [Development Status](#-development-status)
+
+
+
+---
+
+## 🎯 Project Overview
+
+**GigShield** is a parametric income insurance platform designed specifically for India's gig delivery workers (Zomato, Swiggy, Zepto, Amazon, etc.). This repository contains the **frontend React/TypeScript application** built with modern web technologies.
+
+**The Problem:** Delivery workers face sudden income loss due to uncontrollable external disruptions (heavy rain, flooding, pollution, strikes, etc.) with zero safety net or financial buffer.
+
+**The Solution:** GigShield provides automatic, hassle-free parametric insurance payouts triggered directly when verified disruptions prevent workers from earning.
 
 ---
 
 ## 🔥 Problem Statement
 
-India's platform-based delivery partners - working for Zomato, Swiggy, Zepto, Amazon, and similar platforms - are the silent engine of our digital economy. Yet they operate without any safety net.
+India's platform-based delivery partners are the backbone of the digital economy, yet they operate without any safety net:
 
-When a red-alert rain floods Mumbai, a pollution emergency shuts down Delhi, or a sudden local strike closes an entire market zone - these workers don't earn. No hours worked = no income. There is no buffer, no savings protection, and no employer to fall back on.
+- **No stable income:** Dependent entirely on daily deliveries
+- **Zero buffer:** Missing even 2 days causes significant financial stress
+- **Uncontrollable disruptions:** Weather events, pollution emergencies, strikes, flooding
+- **No employer support:** Classified as independent contractors with no benefits
+- **Manual paperwork:** Traditional insurance requires complex claim filing
 
-**GigShield** directly addresses this gap: an AI-powered, parametric income insurance platform that triggers automatic payouts when verifiable external disruptions prevent delivery partners from working - **no manual claims, no paperwork, no delays.**
-
----
-
-## 👤 Our Persona
-
-**Segment Chosen:** Food Delivery - Zomato & Swiggy Partners
-
-**Representative User: Rajan, 28, Bengaluru**
-- Earns ₹18,000–₹22,000/month
-- Works 10–12 hours/day, 6 days/week
-- Has zero savings buffer - misses even 2 days = significant stress
-- Owns a two-wheeler; rents a room; sends money home monthly
-- Trusts UPI and WhatsApp; is skeptical of complex insurance forms
+When a red-alert rain floods Mumbai, a pollution emergency shuts down Delhi, or a sudden local strike closes a market zone, these workers don't earn. **No hours worked = no income.**
 
 ---
 
 ## 💡 Solution Overview
 
-GigShield is a **parametric income insurance platform** where:
+GigShield directly addresses this gap with a modern parametric insurance platform:
 
-- Workers subscribe on a **weekly basis** for a small, affordable premium
-- External disruption triggers (weather, pollution, curfew, etc.) are monitored in **real time** via APIs
-- When a verified trigger occurs in a worker's active delivery zone, a **payout is automatically initiated** - no claim filing required
-- The entire experience is mobile-first, available in regional languages, and integrated with UPI for instant payouts
+✅ **Weekly Subscriptions** - Flexible, affordable coverage on a weekly basis  
+✅ **Automatic Triggers** - External disruptions monitored via real-time APIs  
+✅ **Instant Payouts** - No claim filing, no paperwork, no delays  
+✅ **AI-Powered** - Machine learning detects eligible claims automatically  
+✅ **Mobile-First** - Designed for workers using primarily on smartphones  
+✅ **UPI Integration** - Direct payout via existing payment method  
+✅ **Regional Support** - Available in Indian regional languages  
 
-> ⚠️ **Strictly excluded:** Health insurance, life insurance, accident coverage, vehicle repair. GigShield covers **lost income only.**
+**Coverage:** Lost income only  
+**Exclusions:** Health insurance, life insurance, accidents, vehicle repair
 
----
-
-## 🧭 Persona-Based Scenarios & Workflow
-
-### Scenario 1: Red-Alert Rainfall in Bengaluru
-
-**Trigger:** IMD issues red alert; rainfall exceeds 80mm in 3 hours in Koramangala/Indiranagar zones.
-
-**Workflow:**
-1. GigShield's weather monitoring detects the red alert via Weather API
-2. System cross-references which active subscribers are registered in that zone
-3. GPS and platform activity data confirms workers are in or near the affected zone
-4. Payout of ₹200–₹400 (based on their weekly coverage tier) is sent automatically via UPI within 15 minutes
-5. Worker receives WhatsApp notification: *"Heavy rain payout of ₹300 credited. Stay safe."*
+### Persona: Rajan, 28, Bengaluru
+- Earns ₹18,000–₹22,000/month
+- Works 10–12 hours/day, 6 days/week
+- Zero savings buffer
+- Trusts UPI and WhatsApp
+- Skeptical of complex insurance forms
 
 ---
 
-### Scenario 2: Sudden Local Strike / Market Closure
+## 🛠️ Technology Stack
 
-**Trigger:** A localized auto/cab strike in Whitefield closes access to a major restaurant cluster.
+### Frontend Framework
+- **React 18+** - UI component library
+- **TypeScript** - Type-safe JavaScript
+- **Vite** - Fast build tool and dev server
+- **React Router** - Client-side navigation
 
-**Workflow:**
-1. GigShield ingests strike data from traffic APIs + civic news feeds
-2. Workers in that zone who have active coverage are identified
-3. A partial income-loss payout is triggered for verified non-delivery hours
-4. Workers are notified and offered a "zone shift advisory" to nearby active areas
+### UI & Styling
+- **Tailwind CSS** - Utility-first CSS framework
+- **Radix UI** - Accessible component library
+- **Lucide React** - Icon library
+- **Motion** - Animation library
+- **Shadcn/ui** - Pre-built component collection
+
+### State Management & Context
+- **React Context API** - Global state management
+- **Custom Hooks** - Insurance context, language context, theme context
+
+### Development Tools
+- **ESLint** - Code linting
+- **TypeScript** - Static type checking
+- **Vite** - Fast builds and hot module replacement
+
+### Additional Libraries
+- **date-fns** - Date manipulation
+- **clsx** - Class name utilities
+- **canvas-confetti** - Celebration animations
+- **Embla Carousel** - Carousel component
+- **Input OTP** - OTP input handling
+- **Sonner** - Toast notifications
 
 ---
 
-### Scenario 3: Severe Air Quality (AQI > 400) in Delhi-NCR
+## 📁 Project Structure
 
-**Trigger:** AQI exceeds 400 in Gurugram; government advisory issued against outdoor activity.
-
-**Workflow:**
-1. AQI monitoring feed detects threshold breach
-2. All active GigShield subscribers in Gurugram zones are flagged for auto-trigger
-3. Payout calculated based on average daily income × disruption hours
-4. Amount credited; worker notified via app + SMS
-
----
-
-### General Application Workflow
 ```
-[Worker Onboarding]
+The-Strawhats/
+├── src/
+│   ├── main.tsx                    # React app entry point
+│   ├── app/
+│   │   ├── App.tsx                 # Main app component with providers
+│   │   ├── routes.tsx              # React Router configuration
+│   │   ├── contexts/
+│   │   │   ├── InsuranceContext.tsx    # Insurance state management
+│   │   │   ├── LanguageContext.tsx     # Localization context
+│   │   │   └── ThemeContext.tsx        # Dark/light mode theme
+│   │   ├── components/
+│   │   │   ├── ClaimProcessor.tsx      # **NEW** Two-stage claim form UI
+│   │   │   ├── AutoClaimsDashboard.tsx # Dashboard view
+│   │   │   ├── Navbar.tsx              # Navigation bar
+│   │   │   ├── Layout.tsx              # Layout wrapper
+│   │   │   ├── LoadingScreen.tsx       # Loading state
+│   │   │   ├── AnimatedCounter.tsx     # Counter animation
+│   │   │   ├── StatsBanner.tsx         # Statistics display
+│   │   │   ├── Footer.tsx              # Footer component
+│   │   │   ├── FeatureComparison.tsx   # Feature comparison table
+│   │   │   ├── home/                   # Landing page sections
+│   │   │   │   ├── HeroSection.tsx
+│   │   │   │   ├── ProblemSection.tsx
+│   │   │   │   ├── SolutionSection.tsx
+│   │   │   │   ├── HowItWorksSection.tsx
+│   │   │   │   ├── ScenariosSection.tsx
+│   │   │   │   ├── AIFeaturesSection.tsx
+│   │   │   │   ├── DashboardPreview.tsx
+│   │   │   │   ├── PersonaSection.tsx
+│   │   │   │   ├── PricingSection.tsx
+│   │   │   │   ├── TrustSection.tsx
+│   │   │   │   ├── NotificationsSection.tsx
+│   │   │   │   └── CTASection.tsx
+│   │   │   ├── ui/                     # Shadcn/ui components
+│   │   │   │   ├── accordion.tsx
+│   │   │   │   ├── alert.tsx
+│   │   │   │   ├── button.tsx
+│   │   │   │   ├── card.tsx
+│   │   │   │   ├── dialog.tsx
+│   │   │   │   ├── form.tsx
+│   │   │   │   ├── input.tsx
+│   │   │   │   └── ... (30+ UI components)
+│   │   │   └── figma/
+│   │   │       └── ImageWithFallback.tsx
+│   │   ├── pages/
+│   │   │   ├── Home.tsx                # Landing page
+│   │   │   ├── Dashboard.tsx           # Main dashboard
+│   │   │   ├── AdminDashboard.tsx      # Admin view
+│   │   │   ├── Login.tsx               # Authentication
+│   │   │   └── NotFound.tsx            # 404 page
+│   │   ├── services/
+│   │   │   ├── claimService.ts         # **NEW** Backend API client
+│   │   │   └── insuranceEngine.ts      # Insurance logic
+│   │   ├── types/
+│   │   │   └── insurance.ts            # TypeScript interfaces
+│   │   ├── data/
+│   │   │   └── mockData.ts             # Mock data for development
+│   │   └── utils/
+│   │       └── unsplash.ts             # Image utilities
+│   └── styles/
+│       ├── index.css                   # Global styles
+│       ├── fonts.css                   # Font definitions
+│       ├── tailwind.css                # Tailwind CSS
+│       └── theme.css                   # Theme variables
+├── package.json                    # Dependencies
+├── vite.config.ts                  # Vite configuration
+├── tsconfig.json                   # TypeScript configuration
+├── .env.local                      # **NEW** Environment variables
+├── FRONTEND_API_INTEGRATION.md      # **NEW** Integration guide
+└── README.md                       # This file
+```
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- **Node.js** 18+ ([Download](https://nodejs.org/))
+- **npm** or **yarn** package manager
+- **Backend API** running on `http://localhost:5000` (see Backend Setup below)
+
+### Installation
+
+1. **Clone the repository** (if needed):
+```bash
+git clone <repository-url>
+cd guidwire/The-Strawhats
+```
+
+2. **Install dependencies**:
+```bash
+npm install
+```
+
+3. **Configure environment** (create `.env.local` if not present):
+```bash
+VITE_API_URL=http://localhost:5000
+```
+
+4. **Start development server**:
+```bash
+npm run dev
+```
+
+The app will be available at `http://localhost:5173`
+
+### Backend Setup (Required)
+
+The frontend requires a running backend API. Set it up in a separate terminal:
+
+```bash
+cd ../BackendAndModel
+
+# Install Python dependencies
+pip install -r requirements.txt
+
+# Train ML models (first time only)
+python train_parametric_models.py
+
+# Start API server
+python app.py
+```
+
+**Verify:** Backend should be running at `http://localhost:5000`
+
+### Build for Production
+
+```bash
+npm run build
+```
+
+Generated files will be in the `dist/` directory.
+
+---
+
+## ✨ Key Features
+
+### 1. **Claims Processor Component** (`ClaimProcessor.tsx`)
+- **Two-stage form interface** for disruption detection and claim calculation
+- **Real-time validation** of input fields
+- **Automatic calculations** with breakdown display
+- **Result export** as JSON for documentation
+- **Error handling** with user-friendly messages
+- **Mobile-responsive** design
+
+### 2. **Backend API Integration** (`claimService.ts`)
+- **6 API methods** for complete pipeline:
+  - `checkHealth()` - Verify backend is running
+  - `detectDisruption()` - Stage 1 eligibility check
+  - `calculateClaim()` - Stage 2 payout calculation
+  - `processClaim()` - Complete process (both stages)
+  - `processClaimsBatch()` - Batch claim processing
+  - `getModelInfo()` - Model metadata
+- **TypeScript interfaces** for type safety
+- **Error handling** with custom `APIError` class
+- **Automatic fallbacks** and retry logic
+
+### 3. **Insurance Context System** (`InsuranceContext.tsx`)
+- **Global state management** for insurance data
+- **User profile** information
+- **Active policies** and coverage details
+- **Disruption signals** real-time monitoring
+- **Claims history** tracking
+- **Fraud detection** with warnings
+- **Earnings protection** calculation
+
+### 4. **Multi-Language Support** (`LanguageContext.tsx`)
+- Support for regional Indian languages
+- Easy switching between languages
+- Translation context for UI
+
+### 5. **Theme Support** (`ThemeContext.tsx`)
+- Dark/light mode toggle
+- Persistent theme preference
+- System theme detection
+
+### 6. **Navigation & Routing** (`routes.tsx`)
+- **Home** - Landing page with product overview
+- **Dashboard** - Main application dashboard
+- **Claims** - Claim processor interface
+- **Admin** - Administrative dashboard
+- **Login** - Authentication page
+- **404** - Not found page
+
+### 7. **Responsive UI Components**
+- Mobile-first design
+- Adaptive layouts for all screen sizes
+- Touch-friendly interactions
+- Fast load times with Vite
+
+---
+
+## 🏗️ Architecture
+
+### Component Hierarchy
+
+```
+App (Root)
+├── ThemeProvider
+│   └── InsuranceProvider
+│       └── RouterProvider
+│           ├── Layout
+│           │   ├── Navbar
+│           │   ├── Routes
+│           │   │   ├── Home (HeroSection, ProblemSection, etc.)
+│           │   │   ├── Dashboard (AutoClaimsDashboard)
+│           │   │   ├── ClaimProcessor (Claims page)
+│           │   │   ├── AdminDashboard
+│           │   │   ├── Login
+│           │   │   └── NotFound
+│           │   └── Footer
+│           └── Toaster (Notifications)
+```
+
+### Data Flow
+
+```
+User Input (ClaimProcessor)
+    ↓
+claimService.processClaim()
+    ↓
+Flask API (http://localhost:5000)
+    ├── Stage 1: Disruption Detection
+    │   └── RandomForestClassifier (87% precision)
+    └── Stage 2: Claim Amount Calculation
+        └── RandomForestRegressor (R² = 0.7821)
+    ↓
+Response Processing
+    ↓
+UI Display & Result Export
+```
+
+### State Management
+
+```
+InsuranceContext
+├── User Authentication
+├── Policy Information
+├── Active Disruptions
+├── Claim History
+├── Fraud Detection
+└── Earnings Tracking
+```
+
+---
+
+## 🔗 API Integration
+
+### Backend API Endpoints
+
+The frontend communicates with these backend endpoints:
+
+| Method | Endpoint | Purpose |
+|--------|----------|---------|
+| `GET` | `/health` | Health check |
+| `POST` | `/detect-disruption` | Stage 1: Check eligibility |
+| `POST` | `/calculate-claim` | Stage 2: Calculate payout |
+| `POST` | `/process-claim` | Combined: Both stages |
+| `POST` | `/process-claims-batch` | Batch processing |
+| `GET` | `/model-info` | Model metadata |
+
+### Example Usage
+
+```typescript
+import { claimService } from '@/services/claimService';
+
+// Check backend is running
+const health = await claimService.checkHealth();
+
+// Detect disruption (Stage 1)
+const disruption = await claimService.detectDisruption({
+  disruption_type: 'heavy_rain',
+  disruption_intensity: 'severe',
+  weather_condition: 'thunderstorm',
+  pollution_index: 'safe',
+  platform: 'zomato',
+  city: 'bengaluru',
+  delivery_type: 'express',
+  zone_safety_score: 0.85,
+  gps_accuracy_percent: 92,
+});
+
+// Calculate claim amount (Stage 2)
+if (disruption.eligible) {
+  const claim = await claimService.calculateClaim({
+    eligible: true,
+    income_loss_percentage: 75,
+    days_worked_weekly: 6,
+    avg_delivery_distance_km: 8.5,
+    customer_rating: 4.8,
+    weekly_avg_earnings: 5000,
+    experience_months: 24,
+    age_group: '25-35',
+    claim_fraud_indicator: false,
+  });
+  
+  console.log(`Payout: ₹${claim.estimated_payout}`);
+}
+```
+
+### Environment Configuration
+
+Set the API URL via environment variables:
+
+```bash
+# .env.local
+VITE_API_URL=http://localhost:5000
+VITE_API_TIMEOUT=30000
+VITE_DEBUG_MODE=false
+```
+
+For more details, see [FRONTEND_API_INTEGRATION.md](./FRONTEND_API_INTEGRATION.md).
+
+---
+
+## 📊 Development Status
+
+### ✅ Completed
+
+- [x] React TypeScript project setup with Vite
+- [x] Routing with React Router
+- [x] Global state management (Insurance Context)
+- [x] Theming system (Dark/Light mode)
+- [x] Multi-language support framework
+- [x] Comprehensive UI component library (Shadcn/ui)
+- [x] Landing page with all sections
+- [x] Dashboard with statistics
+- [x] Claims processor component (two-stage form)
+- [x] Backend API service layer (claimService.ts)
+- [x] Integration with ML models
+- [x] Error handling and validation
+- [x] Mobile-responsive design
+- [x] Toast notifications (Sonner)
+- [x] Loading states and animations
+- [x] Result export functionality
+- [x] Comprehensive documentation
+
+### 🔄 In Progress / Future
+
+- [ ] User authentication & onboarding flow
+- [ ] OTP-based phone verification
+- [ ] Policy purchase workflow
+- [ ] Real-time disruption monitoring dashboard
+- [ ] Claim history and status tracking
+- [ ] Payment integration (UPI/Razorpay)
+- [ ] Notifications (Email/SMS/WhatsApp)
+- [ ] Admin panel features
+- [ ] Performance optimization
+- [ ] E2E testing with Cypress/Playwright
+- [ ] Mobile app version (React Native)
+
+### 🎯 Testing
+
+To test the Claims Processor:
+
+1. Start backend: `python app.py` (in BackendAndModel folder)
+2. Start frontend: `npm run dev`
+3. Navigate to `http://localhost:5173/claims`
+4. Fill in the two-stage form with sample data
+5. Click "Process Claim" to see results
+6. Export results as JSON
+
+---
+
+## 📚 Key Files Reference
+
+| File | Purpose |
+|------|---------|
+| [ClaimProcessor.tsx](src/app/components/ClaimProcessor.tsx) | Two-stage claim form UI |
+| [claimService.ts](src/app/services/claimService.ts) | Backend API client |
+| [InsuranceContext.tsx](src/app/contexts/InsuranceContext.tsx) | Global state management |
+| [routes.tsx](src/app/routes.tsx) | Application routing |
+| [insurance.ts](src/app/types/insurance.ts) | TypeScript type definitions |
+| [FRONTEND_API_INTEGRATION.md](./FRONTEND_API_INTEGRATION.md) | API integration guide |
+
+---
+
+## 🔐 Security Considerations
+
+- All API communication happens over HTTP (use HTTPS in production)
+- Sensitive data is managed through secure context
+- Input validation on all forms
+- CORS enabled for cross-origin requests
+- Environment variables for sensitive config
+
+---
+
+## 📞 Support & Documentation
+
+- **Backend Setup:** See [../BackendAndModel/QUICK_START.md](../BackendAndModel/QUICK_START.md)
+- **API Reference:** See [../BackendAndModel/API_DOCUMENTATION.md](../BackendAndModel/API_DOCUMENTATION.md)
+- **System Architecture:** See [../BackendAndModel/SYSTEM_ARCHITECTURE.md](../BackendAndModel/SYSTEM_ARCHITECTURE.md)
+- **Full Project Guide:** See [../COMPLETE_SETUP_GUIDE.md](../COMPLETE_SETUP_GUIDE.md)
+- **Integration Details:** See [./FRONTEND_API_INTEGRATION.md](./FRONTEND_API_INTEGRATION.md)
+
+---
+
+## 📄 License
+
+This project is part of DEVTrails 2026 submission. All rights reserved.
+
+---
+
+## 👥 Contributors
+
+Built with ❤️ for India's gig economy workers.
     ↓
 [Risk Profiling via AI] → Weekly Premium Assigned
     ↓
