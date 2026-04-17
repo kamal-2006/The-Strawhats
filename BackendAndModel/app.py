@@ -14,21 +14,18 @@ import uuid
 from datetime import datetime
 from auto_claims_processor import get_processor
 
+
 app = Flask(__name__)
 CORS(app, resources={r"*": {"origins": "*"}})
 
-# Initialize auto claims processor
-print("\n" + "="*80)
-print("Initializing Auto Claims Processor...")
-print("="*80)
+# Initialize auto claims processor (lazy - will connect on first use)
 try:
     processor = get_processor()
-    print("[OK] Auto Claims Processor initialized")
+    print("[OK] Auto Claims Processor initialized (MongoDB connection deferred)")
     processor_ready = True
 except Exception as e:
     print(f"[ERROR] Auto Claims Processor error: {e}")
     processor_ready = False
-print("="*80 + "\n")
 
 # ================================
 # MODEL LOADING
@@ -70,6 +67,31 @@ except FileNotFoundError as e:
     print("⚠ Models not found. Please run train_parametric_models.py first.")
     models_loaded = False
 
+print("="*80 + "\n")
+
+# ================================
+# STARTUP MESSAGES
+# ================================
+
+print("Starting Parametric Insurance API...")
+print("\n📌 MANUAL PROCESSING ENDPOINTS:")
+print("  GET  /health                    - Health check")
+print("  POST /detect-disruption         - Stage 1: Disruption Detection")
+print("  POST /calculate-claim           - Stage 2: Claim Amount Calculation")
+print("  POST /process-claim             - Complete pipeline (Stage 1 + 2)")
+print("  POST /process-claims-batch      - Batch processing")
+print("  GET  /model-info                - Model information")
+print("\n[AUTO] AUTOMATIC PROCESSING ENDPOINTS (No manual input required):")
+print("  POST /auto-process-claim        - Auto-process single claim")
+print("  POST /auto-process-batch        - Auto-process multiple claims")
+print("  POST /auto-process-csv          - Auto-process claims from CSV file")
+print("  GET  /auto-stats                - Get processing statistics")
+print("\n[DB] MONGODB INTEGRATION:")
+print("  - All auto-processed claims stored in MongoDB")
+print("  - Automatic validation, approval, and payout calculation")
+print("  - Statistics and audit logs available via /auto-stats")
+print("="*80)
+print("✅ API READY TO SERVE REQUESTS")
 print("="*80 + "\n")
 
 # ================================
@@ -913,26 +935,10 @@ def auto_process_csv():
 # MAIN
 # ================================
 
-if __name__ == '__main__':
-    print("\n" + "="*80)
-    print("Starting Parametric Insurance API...")
-    print("="*80)
-    print("\n📌 MANUAL PROCESSING ENDPOINTS:")
-    print("  GET  /health                    - Health check")
-    print("  POST /detect-disruption         - Stage 1: Disruption Detection")
-    print("  POST /calculate-claim           - Stage 2: Claim Amount Calculation")
-    print("  POST /process-claim             - Complete pipeline (Stage 1 + 2)")
-    print("  POST /process-claims-batch      - Batch processing")
-    print("  GET  /model-info                - Model information")
-    print("\n[AUTO] AUTOMATIC PROCESSING ENDPOINTS (No manual input required):")
-    print("  POST /auto-process-claim        - Auto-process single claim")
-    print("  POST /auto-process-batch        - Auto-process multiple claims")
-    print("  POST /auto-process-csv          - Auto-process claims from CSV file")
-    print("  GET  /auto-stats                - Get processing statistics")
-    print("\n[DB] MONGODB INTEGRATION:")
-    print("  - All auto-processed claims stored in MongoDB")
-    print("  - Automatic validation, approval, and payout calculation")
-    print("  - Statistics and audit logs available via /auto-stats")
-    print("="*80 + "\n")
-    
-    app.run(debug=True, host='0.0.0.0', port=5000)
+# ==========================
+# ======
+# MAIN
+# ================================
+# App is served by Gunicorn in production
+# Startup messages printed at module level above
+

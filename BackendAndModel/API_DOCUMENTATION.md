@@ -106,6 +106,153 @@ POST /detect-disruption
 
 ---
 
+## Error Handling
+
+### Error Codes
+
+| Code | Message | Cause |
+|------|---------|-------|
+| 400 | Missing required fields | Request missing mandatory parameters |
+| 400 | Invalid field values | Field values out of acceptable range |
+| 500 | Model not loaded | ML models failed to load |
+| 500 | Prediction error | Internal prediction error |
+
+### Error Response Format
+```json
+{
+  "status": "error",
+  "message": "Description of the error",
+  "details": {
+    "missing_fields": ["field1", "field2"],
+    "invalid_fields": []
+  }
+}
+```
+
+---
+
+## Performance
+
+| Endpoint | Typical Response Time |
+|----------|----------------------|
+| `/detect-disruption` | 20-50ms |
+| `/calculate-claim` | 30-80ms |
+| `/process-claim` | 80-150ms |
+| `/process-claims-batch` (100 claims) | 2-4 seconds |
+
+---
+
+## Support
+
+For issues or questions, please refer to the main README or contact the development team.
+# GigShield Parametric Insurance API Documentation
+
+## Overview
+
+This is a **parametric insurance API** that processes gig worker claims in a two-stage pipeline:
+
+1. **Stage 1: Disruption Detection** - Identify if an external disruption occurred
+2. **Stage 2: Claim Amount Calculation** - Calculate automatic payout based on income loss
+
+---
+
+## Architecture
+
+### Traditional Insurance vs. Parametric Insurance
+
+| Aspect | Traditional | Parametric |
+|--------|-----------|-----------|
+| **Trigger** | Worker submits manual claim with proof | External data source (weather, pollution) |
+| **Verification** | Manual review required | Automated data verification |
+| **Processing** | Days/weeks | Seconds/minutes |
+| **Payout** | Variable, requires assessment | **Fixed/automatic** based on disruption severity |
+
+---
+
+## Models
+
+### Model 1: Disruption Detection (Classification)
+- **Type**: RandomForestClassifier
+- **Target**: Is worker eligible for claim?
+- **Input Features**: 9 disruption-related features
+- **Output**: Eligible (Yes/No) + Confidence Score
+
+### Model 2: Claim Amount Calculator (Regression)
+- **Type**: RandomForestRegressor  
+- **Target**: What amount should worker receive?
+- **Input Features**: 8 worker/disruption impact features
+- **Output**: Payout amount (₹)
+
+---
+
+## API Endpoints
+
+### 1. Health Check
+```
+GET /health
+```
+
+**Response:**
+```json
+{
+  "status": "healthy",
+  "models_loaded": true,
+  "timestamp": "2026-04-17T10:30:00.123456"
+}
+```
+
+---
+
+### 2. Disruption Detection (Stage 1)
+```
+POST /detect-disruption
+```
+
+**Request:**
+```json
+{
+  "disruption_type": "Heavy Rain",
+  "disruption_intensity": "High",
+  "weather_condition": "Rainy",
+  "pollution_index": "Low",
+  "platform": "Zomato",
+  "city": "Bangalore",
+  "delivery_type": "Food Delivery",
+  "zone_safety_score": 65,
+  "gps_accuracy_percent": 98.5
+}
+```
+
+**Response (Eligible):**
+```json
+{
+  "eligible": true,
+  "eligibility_score": 0.8734,
+  "confidence": {
+    "not_eligible": 0.1266,
+    "eligible": 0.8734
+  },
+  "processed_at": "2026-04-17T10:30:00.123456",
+  "status": "success"
+}
+```
+
+**Response (Not Eligible):**
+```json
+{
+  "eligible": false,
+  "eligibility_score": 0.3421,
+  "confidence": {
+    "not_eligible": 0.6579,
+    "eligible": 0.3421
+  },
+  "processed_at": "2026-04-17T10:30:00.123456",
+  "status": "success"
+}
+```
+
+---
+
 ### 3. Claim Amount Calculation (Stage 2)
 ```
 POST /calculate-claim

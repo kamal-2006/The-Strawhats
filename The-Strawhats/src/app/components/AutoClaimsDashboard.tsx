@@ -221,7 +221,7 @@ export function AutoClaimsDashboard() {
       setApiAvailable(true);
 
       // Process claim through auto endpoint
-      const response = await fetch('http://localhost:5000/auto-process-claim', {
+      const response = await fetch('https://integrated-thiruselvan-gigshield.hf.space/auto-process-claim', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(claimData),
@@ -339,8 +339,8 @@ export function AutoClaimsDashboard() {
               <AlertCircle className="h-4 w-4 mr-2 inline" />
               <strong>API Unavailable:</strong> Backend not running on
               <code className="ml-1 bg-red-100 dark:bg-red-900 px-2 py-1 rounded">
-                http://localhost:5000
-              </code>
+                
+              </code>https://integrated-thiruselvan-gigshield.hf.space
             </Alert>
           </motion.div>
         )}

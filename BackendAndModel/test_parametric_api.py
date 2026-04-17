@@ -8,7 +8,7 @@ import json
 from datetime import datetime
 
 # API Base URL
-BASE_URL = "http://localhost:5000"
+BASE_URL = "https://integrated-thiruselvan-gigshield.hf.space"
 
 def print_section(title):
     """Print a formatted section header"""
@@ -382,7 +382,7 @@ def run_all_tests():
     print("="*80 + "\n")
 
 if __name__ == "__main__":
-    print("\nNote: Make sure the Flask server is running on http://localhost:5000")
+    print("\nNote: Make sure the Flask server is running on https://integrated-thiruselvan-gigshield.hf.space")
     print("Start the server with: python app.py")
     input("\nPress Enter to start tests...")
     

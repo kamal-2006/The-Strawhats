@@ -1,14 +1,20 @@
 # Use the official Python 3.10.9 image
 FROM python:3.10.9
 
-# Copy the current directory contents into the container at .
+# Set the working directory
+WORKDIR /app
+
+# Copy requirements first for better caching
+COPY requirements.txt .
+
+# Install dependencies
+RUN pip install --no-cache-dir --upgrade -r requirements.txt
+
+# Copy the application files
 COPY . .
 
-# Set the working directory to /
-WORKDIR /
+# Expose port 5000 for the Flask app
+EXPOSE 5000
 
-# Install requirements.txt 
-RUN pip install --no-cache-dir --upgrade -r /requirements.txt
-
-# Start the FastAPI app on port 7860, the default port expected by Spaces
-CMD ["python", "app.py"]
+# Start the Flask app with Gunicorn (production WSGI server)
+CMD ["gunicorn", "--bind", "0.0.0.0:5000", "--workers", "4", "--timeout", "120", "app:app"]

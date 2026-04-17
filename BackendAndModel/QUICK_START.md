@@ -4,6 +4,158 @@
 
 ### Step 1: Install Dependencies
 ```bash
+pip install -r requirements.txt
+```
+
+### Step 2: Train Models
+```bash
+python train_parametric_models.py
+```
+
+**Output:**
+```
+════════════════════════════════════════════════════════════════════════════════
+PARAMETRIC INSURANCE MODEL TRAINING
+════════════════════════════════════════════════════════════════════════════════
+
+[STEP 1] Loading dataset...
+Dataset shape: (5000, 31)
+
+[STEP 2] Creating disruption eligibility labels...
+Eligible claims: 3246 / 5000
+
+[STEP 3] Data preprocessing...
+
+[STEP 4] Feature engineering...
+Disruption model - X shape: (5000, 9), y shape: (5000,)
+Claim model - X shape: (3246, 8), y shape: (3246,)
+
+[STEP 5] Encoding categorical variables...
+
+[STEP 6] Train-test split...
+
+[STEP 7] Training disruption detection model (Classification)...
+
+--- Disruption Detection Model Performance ---
+              precision    recall  f1-score   support
+   Not Eligible       0.82      0.85      0.84      365
+       Eligible       0.87      0.85      0.86      435
+
+[STEP 8] Training claim amount calculator model (Regression)...
+
+--- Claim Amount Calculator Model Performance ---
+Mean Absolute Error: ₹245.50
+R² Score: 0.7821
+```
+
+---
+
+### Step 3: Run API Server
+```bash
+python app.py
+```
+
+**Expected Output:**
+```
+WARNING in app.run_simple: This is a development server. Do not use it in production applications.
+Use a production WSGI server instead.
+ * Serving Flask app 'app'
+ * Debug mode: on
+ * Running on http://127.0.0.1:5000
+```
+
+---
+
+### Step 4: Test the API
+
+#### Test 1: Health Check
+```bash
+curl http://localhost:5000/health
+```
+
+**Expected Response:**
+```json
+{
+  "status": "healthy",
+  "models_loaded": true,
+  "timestamp": "2026-04-17T10:30:00.123456"
+}
+```
+
+#### Test 2: Process a Claim
+```bash
+curl -X POST http://localhost:5000/process-claim \
+  -H "Content-Type: application/json" \
+  -d '{
+    "disruption_type": "Heavy Rain",
+    "disruption_intensity": "High",
+    "weather_condition": "Rainy",
+    "pollution_index": "Low",
+    "platform": "Zomato",
+    "city": "Bangalore",
+    "delivery_type": "Food Delivery",
+    "zone_safety_score": 65,
+    "gps_accuracy_percent": 98.5,
+    "daily_income_expected": 1500,
+    "daily_income_actual": 450,
+    "hours_worked": 3,
+    "orders_completed": 12,
+    "cancellation_rate": 0.05,
+    "average_order_value": 250
+  }'
+```
+
+**Expected Response:**
+```json
+{
+  "stage1_result": {
+    "eligible": true,
+    "eligibility_score": 0.8734
+  },
+  "stage2_result": {
+    "payout_amount": 892.50
+  },
+  "final_decision": {
+    "claim_approved": true,
+    "payout_amount": 892.50
+  },
+  "status": "success"
+}
+```
+
+---
+
+## 🐳 Docker Setup
+
+### Build Docker Image
+```bash
+docker build -t gigshield-api .
+```
+
+### Run Docker Container
+```bash
+docker run -p 5000:5000 gigshield-api
+```
+
+Then access the API at `http://localhost:5000`
+
+---
+
+## 📚 Next Steps
+
+1. Read [API_DOCUMENTATION.md](API_DOCUMENTATION.md) for detailed endpoint specs
+2. Review [SYSTEM_ARCHITECTURE.md](SYSTEM_ARCHITECTURE.md) for technical details
+3. Check [REFACTORING_SUMMARY.md](REFACTORING_SUMMARY.md) to understand changes
+
+---
+
+**Happy claiming! 🎉**
+# GigShield Parametric Insurance - Quick Start Guide
+
+## 🚀 Getting Started in 5 Minutes
+
+### Step 1: Install Dependencies
+```bash
 cd RecommendationSystemBackend
 pip install -r requirements.txt
 ```

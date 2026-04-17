@@ -145,7 +145,7 @@ export function ClaimProcessor() {
       if (!available) {
         setApiAvailable(false);
         throw new Error(
-          'API Server is not available. Make sure backend is running on http://localhost:5000'
+          'API Server is not available. Make sure backend is running on https://integrated-thiruselvan-gigshield.hf.space'
         );
       }
       setApiAvailable(true);

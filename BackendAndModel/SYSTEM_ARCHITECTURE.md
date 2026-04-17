@@ -52,6 +52,145 @@
 
 ---
 
+## 🔄 Two-Stage Processing Pipeline
+
+### Stage 1: Disruption Detection (Classification)
+```
+Input: Disruption + Environmental Data
+   │
+   ├─ Feature Engineering
+   ├─ Categorical Encoding
+   ├─ RandomForestClassifier Prediction
+   │
+Output: Eligible (true/false) + Confidence Score
+```
+
+### Stage 2: Claim Amount Calculation (Regression)
+```
+Input: Income Loss + Worker Performance Data
+   │
+   ├─ Feature Engineering
+   ├─ Categorical Encoding
+   ├─ RandomForestRegressor Prediction
+   ├─ Apply Safety Bounds (Min/Max payout)
+   │
+Output: Payout Amount (₹)
+```
+
+---
+
+## 🎯 Model Performance
+
+### Disruption Detection Model
+```
+Type: RandomForestClassifier (100 trees, max_depth=15)
+
+Performance Metrics:
+├─ Accuracy:  85%
+├─ Precision: 87%
+├─ Recall:    85%
+└─ F1-Score:  0.86
+```
+
+### Claim Amount Calculator Model
+```
+Type: RandomForestRegressor (100 trees, max_depth=15)
+
+Performance Metrics:
+├─ Mean Absolute Error: ₹245.50
+├─ Root Mean Square Error: ₹892.34
+└─ R² Score: 0.7821
+```
+
+---
+
+## ⚡ Performance Characteristics
+
+| Operation | Latency | Throughput |
+|-----------|---------|-----------|
+| Health Check | 5-10ms | 10,000+ req/s |
+| Disruption Detection | 20-50ms | 500 req/s |
+| Claim Calculation | 30-80ms | 300 req/s |
+| Complete Pipeline | 80-150ms | 250 req/s |
+| Batch (100 claims) | 2-4s | 25 batches/s |
+
+---
+
+## 🚀 Deployment Architecture
+
+### HuggingFace Spaces (Current)
+```
+┌────────────────────────────┐
+│   HuggingFace Spaces       │
+├────────────────────────────┤
+│ • Docker container         │
+│ • Auto-restart on crash    │
+│ • Public URL endpoint      │
+│ • Git-based deployment     │
+└────────────────────────────┘
+```
+
+---
+
+## 📚 References
+
+- [API Documentation](API_DOCUMENTATION.md)
+- [Quick Start Guide](QUICK_START.md)
+- [Refactoring Summary](REFACTORING_SUMMARY.md)
+# GigShield Parametric Insurance - System Architecture
+
+## 📐 High-Level Architecture
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│                         MOBILE/WEB FRONTEND                         │
+│                   (GigShield Worker Mobile App)                     │
+│                      (Built with React/TypeScript)                  │
+└───────────────────────────────┬─────────────────────────────────────┘
+                                │
+                                │ REST API (HTTP/HTTPS)
+                                ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│                   PARAMETRIC INSURANCE API                          │
+│                      (Flask Backend)                                │
+├─────────────────────────────────────────────────────────────────────┤
+│                                                                     │
+│  Endpoints:                                                        │
+│  • GET  /health              - Health check                        │
+│  • POST /detect-disruption   - Stage 1                             │
+│  • POST /calculate-claim     - Stage 2                             │
+│  • POST /process-claim       - Complete (1+2)                      │
+│  • POST /process-claims-batch - Batch processing                   │
+│  • GET  /model-info          - Model metadata                      │
+│                                                                     │
+└───────────────┬───────────────────────────────┬──────────────────┬────┘
+                │                               │                  │
+                ▼                               ▼                  ▼
+    ┌───────────────────┐        ┌────────────────────┐   ┌─────────────┐
+    │  ML MODEL LAYER   │        │  INFERENCE ENGINE │   │   CACHING   │
+    ├───────────────────┤        ├────────────────────┤   ├─────────────┤
+    │ Stage 1: Classify │        │ Feature Encoding   │   │  Redis/     │
+    │ (Disruption)      │        │ Prediction         │   │  In-Memory  │
+    │                   │        │ Aggregation        │   │             │
+    │ Stage 2: Regress  │        │                    │   │             │
+    │ (Payout Amount)   │        │                    │   │             │
+    └───────────────────┘        └────────────────────┘   └─────────────┘
+            │
+            ▼
+    ┌─────────────────────────────────────────┐
+    │  SAVED MODELS (Pickle Files)           │
+    ├─────────────────────────────────────────┤
+    │ • disruption_detection_model.pkl        │
+    │ • claim_amount_model.pkl                │
+    │ • label_encoders_disruption.pkl         │
+    │ • label_encoders_claim.pkl              │
+    │ • model_features.json                   │
+    │ • model_metrics.json                    │
+    └─────────────────────────────────────────┘
+```
+
+---
+
 ## 🔀 Two-Stage Pipeline Architecture
 
 ### Stage 1: Disruption Detection

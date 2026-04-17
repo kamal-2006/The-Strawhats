@@ -46,7 +46,7 @@ class AutoClaimsProcessor:
         self.auto_approve = auto_approve
         self.client = None
         self.db = None
-        self.connect()
+        # Don't connect on init - connect lazily on first use
     
     def connect(self) -> bool:
         """Connect to MongoDB."""
